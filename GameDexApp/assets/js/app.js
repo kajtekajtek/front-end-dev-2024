@@ -49,6 +49,7 @@ function displayPokemonList(data) {
     // create a list item for each pokemon
     data.forEach((pokemon, index) => {
         const li = document.createElement('li');
+        li.classList.add('item');
 
         li.innerHTML = `
             <h3>${pokemon.name} #${index + 1}</h3>
@@ -85,7 +86,11 @@ async function fetchPokemonDetails(id) {
 }
 // display pokemon details
 function displayPokemonDetails(pokemon) {
+    pokemon_details.classList.add('details__active');
+
     pokemon_details.innerHTML = `
+        <h2>Pokemon Details</h2>
+        <div class="details__content item">
         <h3>${pokemon.name}</h3>
         <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
         <p><strong>Type:</strong> ${pokemon.types.map(type => type.type.name).join(', ')}</p>
@@ -95,6 +100,7 @@ function displayPokemonDetails(pokemon) {
         <ul>
             ${pokemon.stats.map(stat => `<li>${stat.stat.name}: ${stat.base_stat}</li>`).join('')}
         </ul>
+        </div>
     `;
 }
 
