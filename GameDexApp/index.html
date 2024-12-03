@@ -7,19 +7,16 @@
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Game Dex</h1>
-        <input type="text" class="searchbar" id="search" placeholder="Wyszukaj pokemona...">
-    </header>
-    <main>
-        <section id="pokemonList">
-            <ul id="list" class="items"></ul>
-        </section>
-        <section id="pokemonDetails">
-            <div id="details"></div>
-        </section>
-    </main>
-    <div id="loading">Loading...</div>
-    <script src="./assets/js/app.js"></script>
+    <div id="root"></div>
+    
+    <!-- React CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel CDN for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- kntry point for the app -->
+    <script type="text/babel" src="app.js"></script>
 </body>
 </html>
