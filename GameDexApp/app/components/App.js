@@ -23,18 +23,26 @@ function App({ pokemons, selectedPokemon }) {
 
     state.pokemons = pokemons;
     state.selectedPokemon = selectedPokemon
-    console.log(state.selectedPokemon)
 
     return (
         <div>
-            <section id="pokemonList">
+            <section className="header">
+                <h1>Game Dex</h1>
+                <input 
+                    type="text" 
+                    id="search"
+                    className="searchBar" 
+                    placeholder="Wyszukaj pokemona...">
+                </input>
+            </section>
+            <section className="pokemonList">
                 <h2>Pokemon List</h2>
                 <PokemonList 
                     pokemons={state.pokemons} 
                     fetchPokemonDetails={fetchPokemonDetails}
                 />
             </section>
-            <section id="pokemonDetails">
+            <section className="pokemonDetails">
                 <h2>Pokemon Details</h2>
                 <PokemonDetails 
                     selectedPokemon={state.selectedPokemon} 

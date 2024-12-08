@@ -13,7 +13,7 @@ function PokemonList({ pokemons, fetchPokemonDetails }) {
     }
 
     return (
-        <ul id="list">
+        <ul className="pokemonList">
             {pokemons.map((pokemon, index) => (
                     <li key={index} onClick={() => showPokemonDetails(index + 1)}>
                         <span>{pokemon.name} #{index + 1}</span>
