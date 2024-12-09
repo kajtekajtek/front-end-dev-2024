@@ -1,6 +1,6 @@
 //  main App component
 function App({ pokemons, selectedPokemon }) {
-    // get pokemon details
+    // function to fetch chosen pokemon details
     async function fetchPokemonDetails(id) {
         try {
             // fetch chosen pokemon details
@@ -14,6 +14,20 @@ function App({ pokemons, selectedPokemon }) {
         } catch (error) {
             throw error;
         }
+    }
+
+    // function to show chosen pokemon details
+    async function showPokemonDetails(id) {
+        // fetch details of chosen pokemon
+        fetchPokemonDetails(id)
+            // render App again, this time with selectedPokemon  
+            .then(pokemon => root.render(
+                <App
+                    pokemons={pokemons}
+                    selectedPokemon={pokemon}
+                />,
+            ))
+            .catch(error => console.log(error));
     }
 
     const state = {
@@ -39,7 +53,7 @@ function App({ pokemons, selectedPokemon }) {
                 <h2>Pokemon List</h2>
                 <PokemonList 
                     pokemons={state.pokemons} 
-                    fetchPokemonDetails={fetchPokemonDetails}
+                    pokemonOnClick={showPokemonDetails}
                 />
             </section>
             <section className="pokemonDetails">

@@ -18,6 +18,8 @@ async function fetchPokemonList() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
+/* fetch pokemon list and render the App component with the data received 
+    from the API */
 fetchPokemonList()
     .then(data => root.render(
         <App
