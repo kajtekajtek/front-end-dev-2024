@@ -7,10 +7,12 @@ const API_URL = 'https://pokeapi.co/api/v2/pokemon';
 const pokemonListSize = 20;
 
 export default function PokemonPage() {
+    // state to store fetched pokemon list
     const [pokemonList, setPokemonList] = useState([]);
+    // state to store filtered pokemon list
     const [filteredPokemonList, setFilteredPokemonList] = useState([]);
 
-    // fetch pokemon list
+    // fetch pokemon list on component mount
     useEffect(() => {
         const fetchPokemonList = async () => {
             try {
@@ -30,6 +32,7 @@ export default function PokemonPage() {
         fetchPokemonList();
     }, []);
 
+    // function to filter pokemon list by name
     const handleSearch = (query) => {
         const filteredList = pokemonList.filter((pokemon) => 
             pokemon.name.toLowerCase().includes(query.toLowerCase()));

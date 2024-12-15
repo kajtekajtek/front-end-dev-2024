@@ -1,3 +1,11 @@
+/* header */ 
+.searchBar {
+    padding: 0.5rem;
+    background-color: var(--item-color);
+    border: 1px solid var(--border-color);
+    border-radius: 2rem;
+}
+
 /* pokemon list */
 .pokemonList {
     display: flex;
@@ -35,3 +43,4 @@
 p {
     text-align: center;
 }
+

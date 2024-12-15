@@ -1,7 +1,7 @@
 // app/layout.js - root app layout
-import Link from 'next/link';
 import '../styles/global.css'
 
+// root layout contains the navigation bar and the main content
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

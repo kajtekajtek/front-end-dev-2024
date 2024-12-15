@@ -1,4 +1,4 @@
-// pokemon details component
+// app/components/pokemonDetails.js - pokemon details component
 function PokemonDetails({ selectedPokemon }) {
     if (!selectedPokemon) {
         return <p>Select a Pokemon to see its details</p>

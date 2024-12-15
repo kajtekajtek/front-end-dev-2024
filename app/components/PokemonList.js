@@ -1,10 +1,10 @@
-// components/PokemonList.js - pokemon list component
+// app/components/PokemonList.js - pokemon list component
 export default function PokemonList({ pokemons }) {
     if (!pokemons.length) {
         return <p>Not found...</p>;
     }
 
-    // get pokemon id from url
+    // function to retrieve pokemon id from api url
     const getPokemonId = (url) => {
         const match = url.match(/\/pokemon\/(\d+)\//);
         return match ? match[1] : null;
