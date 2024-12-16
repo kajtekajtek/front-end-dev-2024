@@ -42,7 +42,7 @@ h3 {
 }
 
 
-button {
+.homePageButton {
     background-color: var(--item-color);
 
     display: inline-block;
@@ -61,7 +61,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.homePageButton:hover {
     transform: scale(1.05);
     border-color: var(--primary-color);
 }

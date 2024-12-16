@@ -44,6 +44,32 @@ p {
     text-align: center;
 }
 
+.addToFavorites {
+    background-color: var(--item-color);
+
+    display: inline-block;
+    padding:5px 7px;
+    margin-left: -15%;
+    margin-right:5%;
+
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    color: var(--font-color);
+
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.addToFavorites:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+}
+
 /* filter bar */
 .filter-bar {
     margin-left: 2rem;

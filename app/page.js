@@ -7,7 +7,7 @@ export default function HomePage() {
             <section className="header">
                 <h1>Welcome to Game Dex</h1>
                 <Link href="/pokemon">
-                    <button>Go to Pokemon list</button>
+                    <button className="homePageButton">Go to Pokemon list</button>
                 </Link>
             </section>
         </>
