@@ -4,7 +4,7 @@ export default function Filters({ filter, setFilter }) {
         <div className="filter-bar">
                 <label htmlFor="type-filter">Filter by Type:</label>
                 <select id="type-filter" value={filter} onChange={setFilter}>
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     <option value="fire">Fire</option>
                     <option value="water">Water</option>
                     <option value="grass">Grass</option>

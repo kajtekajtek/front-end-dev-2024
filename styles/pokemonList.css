@@ -46,7 +46,7 @@ p {
 
 /* filter bar */
 .filter-bar {
-    margin-bottom: 20px;
+    margin-left: 2rem;
 }
 
 .filter-bar label {
@@ -57,4 +57,15 @@ p {
 .filter-bar select {
     padding: 5px;
     font-size: 16px;
+
+    background-color: var(--item-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.filter-bar select:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

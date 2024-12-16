@@ -1,7 +1,9 @@
 // app/pokemon/page.js - pokemon list
 'use client';
 import { use, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import PokemonList from '../components/PokemonList';
+import FilterBar from '../components/FilterBar';
 
 const API_URL = 'https://pokeapi.co/api/v2/';
 
@@ -10,9 +12,12 @@ export default function PokemonPage({ searchParams }) {
     const [pokemonList, setPokemonList] = useState([]);
     const [filteredPokemonList, setFilteredPokemonList] = useState([]);
     // search parameters
-    const type = use(searchParams).type || 'all';
-    const limit = use(searchParams).limit || 20;
-    const search = use(searchParams).search || '';
+    const params = use(searchParams);
+    const type = params.type || 'all';
+    const limit = params.limit || 20;
+    const search = params.search || '';
+
+    const router = useRouter();
 
     // fetch pokemon list on component mount
     useEffect(() => {
@@ -82,6 +87,11 @@ export default function PokemonPage({ searchParams }) {
             </section>
             <section className="items">
                 <h2>Pokemon List</h2>
+                <FilterBar filter={type} setFilter={(event) => {
+                    const currentParams = new URLSearchParams(window.location.search);
+                    currentParams.set('type', event.target.value);
+                    router.push(`/pokemon?${currentParams.toString()}`);
+                }} />
                 <PokemonList 
                     pokemons={filteredPokemonList} 
                 />
