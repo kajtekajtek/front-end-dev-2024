@@ -36,6 +36,11 @@ export default function FavoritesPage({ searchParams }) {
 
     // function to filter pokemon list by name
     const handleSearch = (query) => {
+        if (!query) {
+            setFilteredPokemonList(favorites);
+            return;
+        }
+
         const filteredList = filteredPokemonList.filter((pokemon) => 
             pokemon.name.toLowerCase().includes(query.toLowerCase()));
         
