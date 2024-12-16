@@ -3,7 +3,7 @@
 import { use, useState, useEffect } from 'react';
 import PokemonList from '../components/PokemonList';
 
-const API_URL = 'https://pokeapi.co/api/v2/pokemon';
+const API_URL = 'https://pokeapi.co/api/v2/';
 
 export default function PokemonPage({ searchParams }) {
     // state to store fetched pokemon list
@@ -19,18 +19,27 @@ export default function PokemonPage({ searchParams }) {
     useEffect(() => {
         const fetchPokemonList = async () => {
             try {
-                const response = await fetch(`${API_URL}?limit=${limit}`);
+                const response = await fetch(`${API_URL}/pokemon/?limit=${limit}`);
 
                 if (!response.ok) throw new Error('Failed to fetch pokemon list');
 
                 const data = await response.json();
 
-                data.results.forEach((pokemon, index) => {
+                // map index and type to each pokemon
+                data.results.forEach(async (pokemon, index) => {
                     pokemon.id = index + 1;
+
+                    const res = await fetch(`${API_URL}/type/${pokemon.id}`);
+
+                    if (!res.ok) pokemon.type = 'unknown';
+                    else {
+                        const typeData = await res.json();
+                        pokemon.type = typeData.name;
+                    }
                 });
 
-                setPokemonList(data.results);
                 setFilteredPokemonList(data.results);
+                setPokemonList(data.results);
             } catch (error) {
                 console.error(error);
             }
@@ -41,7 +50,7 @@ export default function PokemonPage({ searchParams }) {
 
     // function to filter pokemon list by name
     const handleSearch = (query) => {
-        const filteredList = pokemonList.filter((pokemon) => 
+        const filteredList = filteredPokemonList.filter((pokemon) => 
             pokemon.name.toLowerCase().includes(query.toLowerCase()));
         
         setFilteredPokemonList(filteredList);
