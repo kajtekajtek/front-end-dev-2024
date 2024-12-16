@@ -11,6 +11,7 @@ export default function RootLayout({ children }) {
             <ul>
               <li><a href="/">Home</a></li>
               <li><a href="/pokemon">Pokemon</a></li>
+              <li><a href="/favorites">Favorites</a></li>
             </ul>
           </nav>
         </header>

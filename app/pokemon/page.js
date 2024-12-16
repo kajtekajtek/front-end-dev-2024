@@ -9,8 +9,8 @@ const API_URL = 'https://pokeapi.co/api/v2/';
 
 export default function PokemonPage({ searchParams }) {
     // states
-    const [pokemonList, setPokemonList] = useState([]);
-    const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+    const [ pokemonList, setPokemonList ] = useState([]);
+    const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
     // search parameters
     const params = use(searchParams);
@@ -24,8 +24,8 @@ export default function PokemonPage({ searchParams }) {
     const addToFavorites = (pokemon) => {
         let updatedFavorites;
         // remove from favorites if pokemon is already in favorites
-        if (favorites.includes(pokemon)) {
-            updatedFavorites = favorites.filter((fav) => fav !== pokemon);
+        if (favorites.map((fav) => fav.id).includes(pokemon.id)) {
+            updatedFavorites = favorites.filter((fav) => fav.id !== pokemon.id);
         
         // add to favorites if pokemon is not in favorites
         } else {
@@ -93,6 +93,7 @@ export default function PokemonPage({ searchParams }) {
     // load favorites from local storage on component mount
     useEffect(() => {
         const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        console.log(savedFavorites);
         setFavorites(savedFavorites);
     }, []);
 
