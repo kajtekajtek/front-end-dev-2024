@@ -11,6 +11,7 @@ export default function PokemonPage({ searchParams }) {
     // states
     const [pokemonList, setPokemonList] = useState([]);
     const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+    const [ favorites, setFavorites ] = useState([]);
     // search parameters
     const params = use(searchParams);
     const type = params.type || 'all';
@@ -18,6 +19,29 @@ export default function PokemonPage({ searchParams }) {
     const search = params.search || '';
 
     const router = useRouter();
+
+    // function for adding/removing pokemon to/from favorites
+    const addToFavorites = (pokemon) => {
+        let updatedFavorites;
+        // remove from favorites if pokemon is already in favorites
+        if (favorites.includes(pokemon)) {
+            updatedFavorites = favorites.filter((fav) => fav !== pokemon);
+        
+        // add to favorites if pokemon is not in favorites
+        } else {
+            updatedFavorites = [...favorites, pokemon];
+        }
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
+    // function to filter pokemon list by name
+    const handleSearch = (query) => {
+        const filteredList = filteredPokemonList.filter((pokemon) => 
+            pokemon.name.toLowerCase().includes(query.toLowerCase()));
+        
+        setFilteredPokemonList(filteredList);
+    };
 
     // fetch pokemon list on component mount
     useEffect(() => {
@@ -66,13 +90,11 @@ export default function PokemonPage({ searchParams }) {
         }
     }, [type, pokemonList]);
 
-    // function to filter pokemon list by name
-    const handleSearch = (query) => {
-        const filteredList = filteredPokemonList.filter((pokemon) => 
-            pokemon.name.toLowerCase().includes(query.toLowerCase()));
-        
-        setFilteredPokemonList(filteredList);
-    };
+    // load favorites from local storage on component mount
+    useEffect(() => {
+        const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        setFavorites(savedFavorites);
+    }, []);
 
     return (
         <>
@@ -94,6 +116,8 @@ export default function PokemonPage({ searchParams }) {
                 }} />
                 <PokemonList 
                     pokemons={filteredPokemonList} 
+                    favorites={favorites}
+                    addToFavorites={addToFavorites}
                 />
             </section>
         </>
