@@ -6,47 +6,60 @@ import PokemonList from '../components/PokemonList';
 const API_URL = 'https://pokeapi.co/api/v2/';
 
 export default function PokemonPage({ searchParams }) {
-    // state to store fetched pokemon list
+    // states
     const [pokemonList, setPokemonList] = useState([]);
-    // state to store filtered pokemon list
     const [filteredPokemonList, setFilteredPokemonList] = useState([]);
-    // get search params from URL
+    // search parameters
     const type = use(searchParams).type || 'all';
     const limit = use(searchParams).limit || 20;
     const search = use(searchParams).search || '';
 
     // fetch pokemon list on component mount
     useEffect(() => {
-        const fetchPokemonList = async () => {
+        const getPokemonList = async () => {
             try {
-                const response = await fetch(`${API_URL}/pokemon/?limit=${limit}`);
+                // fetch data from the API
+                const response = await fetch(`${API_URL}pokemon/?limit=${limit}`);
 
                 if (!response.ok) throw new Error('Failed to fetch pokemon list');
 
                 const data = await response.json();
 
                 // map index and type to each pokemon
-                data.results.forEach(async (pokemon, index) => {
-                    pokemon.id = index + 1;
+                const parsedData = await Promise.all(
+                    data.results.map(async (pokemon, index) => {
+                        pokemon.id = index + 1;
 
-                    const res = await fetch(`${API_URL}/type/${pokemon.id}`);
+                        const res = await fetch(`${API_URL}/pokemon/${pokemon.id}`);
+                        if (!res.ok) {
+                            pokemon.type = [];
+                            return pokemon;
+                        }
+                        const pokemonData = await res.json();
 
-                    if (!res.ok) pokemon.type = 'unknown';
-                    else {
-                        const typeData = await res.json();
-                        pokemon.type = typeData.name;
-                    }
-                });
+                        pokemon.type = pokemonData.types.map(t => t.type.name);
+                        return pokemon;
+                    })
+                );
 
-                setFilteredPokemonList(data.results);
-                setPokemonList(data.results);
+                setPokemonList(parsedData);
             } catch (error) {
                 console.error(error);
             }
         };
 
-        fetchPokemonList();
-    }, []);
+        getPokemonList();
+    // rerun the effect when the limit param changes
+    }, [limit]);
+
+    // filter pokemon list by type when type param or pokemonList changes
+    useEffect(() => {
+        if (type === 'all') {
+            setFilteredPokemonList(pokemonList);
+        } else {
+            setFilteredPokemonList(pokemonList.filter((pokemon) => pokemon.type.includes(type)));
+        }
+    }, [type, pokemonList]);
 
     // function to filter pokemon list by name
     const handleSearch = (query) => {
