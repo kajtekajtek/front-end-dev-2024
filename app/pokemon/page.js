@@ -1,16 +1,18 @@
 // app/pokemon/page.js - pokemon list
 'use client';
-import { useState, useEffect } from 'react';
+import { use, useState, useEffect } from 'react';
 import PokemonList from '../components/PokemonList';
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon';
 const pokemonListSize = 20;
 
-export default function PokemonPage() {
+export default function PokemonPage({ searchParams }) {
     // state to store fetched pokemon list
     const [pokemonList, setPokemonList] = useState([]);
     // state to store filtered pokemon list
     const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+    // get filter from search params
+    const type = use(searchParams).type || 'all';
 
     // fetch pokemon list on component mount
     useEffect(() => {
@@ -21,6 +23,10 @@ export default function PokemonPage() {
                 if (!response.ok) throw new Error('Failed to fetch pokemon list');
 
                 const data = await response.json();
+
+                data.results.forEach((pokemon, index) => {
+                    pokemon.id = index + 1;
+                });
 
                 setPokemonList(data.results);
                 setFilteredPokemonList(data.results);
