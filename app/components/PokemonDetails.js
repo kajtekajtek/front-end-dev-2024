@@ -1,5 +1,5 @@
 // app/components/pokemonDetails.js - pokemon details component
-function PokemonDetails({ selectedPokemon }) {
+export default function PokemonDetails({ selectedPokemon }) {
     if (!selectedPokemon) {
         return <p>Select a Pokemon to see its details</p>
     }

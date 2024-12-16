@@ -67,22 +67,22 @@ button:hover {
 }
 
 /* Styles for the navigation */
-nav {
+.nav__global {
     background-color: var(--primary-color);
     overflow: hidden;
 }
 
-nav ul {
+.nav__global ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-nav ul li {
+.nav__global ul li {
     float: left;
 }
 
-nav ul li a {
+.nav__global ul li a {
     color: white;
     display: block;
     text-align: center;
@@ -90,7 +90,7 @@ nav ul li a {
     text-decoration: none;
 }
 
-nav ul li a:hover {
+.nav__global ul li a:hover {
     background-color: var(--item-color);
     color: var(--primary-color);
 }

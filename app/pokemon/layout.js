@@ -3,7 +3,7 @@ import '../../styles/pokemonList.css'
 
 export default function pokemonsLayout({ children }) {
     return (
-        <div className="pokemons">
+        <div className="pokemon">
             {children}
         </div>
     )

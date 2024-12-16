@@ -1,3 +1,26 @@
+/* breadcrumbs */
+.pokemonDetails {
+    padding: 20px;
+}
+
+.breadcrumbs {
+    margin-bottom: 20px;
+}
+
+.breadcrumbs a {
+    color: #0070f3;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    margin-left: 5px;
+}
+
 /* pokemon details */
 .pokemonDetails {
     text-align: center;

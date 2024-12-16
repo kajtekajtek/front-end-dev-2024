@@ -7,7 +7,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <header>
-          <nav>
+          <nav className="nav__global">
             <ul>
               <li><a href="/">Home</a></li>
               <li><a href="/pokemon">Pokemon</a></li>
