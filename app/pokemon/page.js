@@ -37,6 +37,11 @@ export default function PokemonPage({ searchParams }) {
 
     // function to filter pokemon list by name
     const handleSearch = (query) => {
+        if (!query) {
+            setFilteredPokemonList(pokemonList);
+            return;
+        }
+
         const filteredList = filteredPokemonList.filter((pokemon) => 
             pokemon.name.toLowerCase().includes(query.toLowerCase()));
         
@@ -93,7 +98,6 @@ export default function PokemonPage({ searchParams }) {
     // load favorites from local storage on component mount
     useEffect(() => {
         const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        console.log(savedFavorites);
         setFavorites(savedFavorites);
     }, []);
 
