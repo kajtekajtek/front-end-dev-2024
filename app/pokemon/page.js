@@ -12,9 +12,10 @@ export default function PokemonPage({ searchParams }) {
     const [ pokemonList, setPokemonList ] = useState([]);
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
+    const [ type, setType ] = useState('all'); // Dodana zmienna "type" jako stan
+
     // search parameters
     const params = use(searchParams);
-    const type = params.type || 'all';
     const limit = params.limit || 20;
     const search = params.search || '';
 
@@ -101,6 +102,12 @@ export default function PokemonPage({ searchParams }) {
         setFavorites(savedFavorites);
     }, []);
 
+    // get type from searchParams on component mount
+    useEffect(() => {
+        const type = params.type || 'all';
+        setType(type);
+    }, []);
+
     return (
         <>
             <section className="header">
@@ -117,6 +124,7 @@ export default function PokemonPage({ searchParams }) {
                 <FilterBar filter={type} setFilter={(event) => {
                     const currentParams = new URLSearchParams(window.location.search);
                     currentParams.set('type', event.target.value);
+                    setType(event.target.value); // Aktualizacja zmiennej "type" za pomocą setType
                     router.push(`/pokemon?${currentParams.toString()}`);
                 }} />
                 <PokemonList 
