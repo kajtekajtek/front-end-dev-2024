@@ -8,16 +8,15 @@ import FilterBar from '../components/FilterBar';
 const API_URL = 'https://pokeapi.co/api/v2/';
 
 export default function PokemonPage({ searchParams }) {
-    // states
+    // pokemon lists
     const [ pokemonList, setPokemonList ] = useState([]);
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
+    // search parameters
     const [ type, setType ] = useState('all');
     const [ limit, setLimit ] = useState(20);
     const [ search, setSearch ] = useState('');
-
-    // search parameters
-    const params = use(searchParams);
+    const [ params ] = useState(use(searchParams));
 
     const router = useRouter();
 
