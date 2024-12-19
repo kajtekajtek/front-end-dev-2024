@@ -13,10 +13,10 @@ export default function PokemonPage({ searchParams }) {
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
     const [ type, setType ] = useState('all'); // Dodana zmienna "type" jako stan
+    const [ limit, setLimit ] = useState(20);
 
     // search parameters
     const params = use(searchParams);
-    const limit = params.limit || 20;
     const search = params.search || '';
 
     const router = useRouter();
@@ -106,6 +106,12 @@ export default function PokemonPage({ searchParams }) {
     useEffect(() => {
         const type = params.type || 'all';
         setType(type);
+    }, []);
+
+    // get limit from searchParams on component mount
+    useEffect(() => {
+        const limit = params.limit || 20;
+        setLimit(limit);
     }, []);
 
     return (
