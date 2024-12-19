@@ -12,12 +12,12 @@ export default function PokemonPage({ searchParams }) {
     const [ pokemonList, setPokemonList ] = useState([]);
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
-    const [ type, setType ] = useState('all'); // Dodana zmienna "type" jako stan
+    const [ type, setType ] = useState('all');
     const [ limit, setLimit ] = useState(20);
+    const [ search, setSearch ] = useState('');
 
     // search parameters
     const params = use(searchParams);
-    const search = params.search || '';
 
     const router = useRouter();
 
@@ -34,19 +34,6 @@ export default function PokemonPage({ searchParams }) {
         }
         setFavorites(updatedFavorites);
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    };
-
-    // function to filter pokemon list by name
-    const handleSearch = (query) => {
-        if (!query) {
-            setFilteredPokemonList(pokemonList);
-            return;
-        }
-
-        const filteredList = filteredPokemonList.filter((pokemon) => 
-            pokemon.name.toLowerCase().includes(query.toLowerCase()));
-        
-        setFilteredPokemonList(filteredList);
     };
 
     // fetch pokemon list on component mount
@@ -114,6 +101,25 @@ export default function PokemonPage({ searchParams }) {
         setLimit(limit);
     }, []);
 
+    // get search from searchParams on component mount
+    useEffect(() => {
+        const search = params.search || '';
+        setSearch(search);
+    }, []);
+
+    // handle search on search change
+    useEffect(() => {
+        if (!search) {
+            setFilteredPokemonList(pokemonList);
+            return;
+        }
+
+        const filteredList = pokemonList.filter((pokemon) => 
+            pokemon.name.toLowerCase().includes(search.toLowerCase()));
+        
+        setFilteredPokemonList(filteredList);
+    }, [search, pokemonList ]);
+
     return (
         <>
             <section className="header">
@@ -122,7 +128,7 @@ export default function PokemonPage({ searchParams }) {
                     type="text" 
                     className="searchBar" 
                     placeholder="Wyszukaj pokemona..."
-                    onChange={(event) => handleSearch(event.target.value)}>
+                    onChange={(event) => setSearch(event.target.value)}>
                 </input>
             </section>
             <section className="items">
