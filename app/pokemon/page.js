@@ -8,15 +8,15 @@ import FilterBar from '../components/FilterBar';
 const API_URL = 'https://pokeapi.co/api/v2/';
 
 export default function PokemonPage({ searchParams }) {
-    // states
+    // pokemon lists
     const [ pokemonList, setPokemonList ] = useState([]);
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
     // search parameters
-    const params = use(searchParams);
-    const type = params.type || 'all';
-    const limit = params.limit || 20;
-    const search = params.search || '';
+    const [ type, setType ] = useState('all');
+    const [ limit, setLimit ] = useState(20);
+    const [ search, setSearch ] = useState('');
+    const [ params ] = useState(use(searchParams));
 
     const router = useRouter();
 
@@ -33,19 +33,6 @@ export default function PokemonPage({ searchParams }) {
         }
         setFavorites(updatedFavorites);
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    };
-
-    // function to filter pokemon list by name
-    const handleSearch = (query) => {
-        if (!query) {
-            setFilteredPokemonList(pokemonList);
-            return;
-        }
-
-        const filteredList = filteredPokemonList.filter((pokemon) => 
-            pokemon.name.toLowerCase().includes(query.toLowerCase()));
-        
-        setFilteredPokemonList(filteredList);
     };
 
     // fetch pokemon list on component mount
@@ -77,6 +64,7 @@ export default function PokemonPage({ searchParams }) {
                 );
 
                 setPokemonList(parsedData);
+                setFilteredPokemonList(parsedData);
             } catch (error) {
                 console.error(error);
             }
@@ -91,15 +79,36 @@ export default function PokemonPage({ searchParams }) {
         if (type === 'all') {
             setFilteredPokemonList(pokemonList);
         } else {
-            setFilteredPokemonList(pokemonList.filter((pokemon) => pokemon.type.includes(type)));
+            const filteredList = pokemonList.filter((pokemon) => pokemon.type.includes(type));
+            setFilteredPokemonList(filteredList);
         }
-    }, [type, pokemonList]);
+    }, [ type, pokemonList ]);
 
     // load favorites from local storage on component mount
     useEffect(() => {
         const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(savedFavorites);
     }, []);
+
+    // handle search on search or pokemonList change
+    useEffect(() => {
+        if (!search) {
+            setFilteredPokemonList(pokemonList);
+            return;
+        }
+
+        const filteredList = filteredPokemonList.filter((pokemon) => 
+            pokemon.name.toLowerCase().includes(search.toLowerCase()));
+        
+        setFilteredPokemonList(filteredList);
+    }, [search, pokemonList ]);
+
+    // update limit, type, and search when params change
+    useEffect(() => {
+        setLimit(params.limit || 20);
+        setType(params.type || 'all');
+        setSearch(params.search || '');
+    }, [ params ]);
 
     return (
         <>
@@ -109,7 +118,7 @@ export default function PokemonPage({ searchParams }) {
                     type="text" 
                     className="searchBar" 
                     placeholder="Wyszukaj pokemona..."
-                    onChange={(event) => handleSearch(event.target.value)}>
+                    onChange={(event) => setSearch(event.target.value)}>
                 </input>
             </section>
             <section className="items">
@@ -117,6 +126,7 @@ export default function PokemonPage({ searchParams }) {
                 <FilterBar filter={type} setFilter={(event) => {
                     const currentParams = new URLSearchParams(window.location.search);
                     currentParams.set('type', event.target.value);
+                    setType(event.target.value); // Aktualizacja zmiennej "type" za pomocą setType
                     router.push(`/pokemon?${currentParams.toString()}`);
                 }} />
                 <PokemonList 
