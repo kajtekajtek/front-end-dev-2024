@@ -65,6 +65,7 @@ export default function PokemonPage({ searchParams }) {
                 );
 
                 setPokemonList(parsedData);
+                setFilteredPokemonList(parsedData);
             } catch (error) {
                 console.error(error);
             }
@@ -79,9 +80,10 @@ export default function PokemonPage({ searchParams }) {
         if (type === 'all') {
             setFilteredPokemonList(pokemonList);
         } else {
-            setFilteredPokemonList(pokemonList.filter((pokemon) => pokemon.type.includes(type)));
+            const filteredList = pokemonList.filter((pokemon) => pokemon.type.includes(type));
+            setFilteredPokemonList(filteredList);
         }
-    }, [type, pokemonList]);
+    }, [ type, pokemonList ]);
 
     // load favorites from local storage on component mount
     useEffect(() => {
@@ -89,36 +91,25 @@ export default function PokemonPage({ searchParams }) {
         setFavorites(savedFavorites);
     }, []);
 
-    // get type from searchParams on component mount
-    useEffect(() => {
-        const type = params.type || 'all';
-        setType(type);
-    }, []);
-
-    // get limit from searchParams on component mount
-    useEffect(() => {
-        const limit = params.limit || 20;
-        setLimit(limit);
-    }, []);
-
-    // get search from searchParams on component mount
-    useEffect(() => {
-        const search = params.search || '';
-        setSearch(search);
-    }, []);
-
-    // handle search on search change
+    // handle search on search or pokemonList change
     useEffect(() => {
         if (!search) {
             setFilteredPokemonList(pokemonList);
             return;
         }
 
-        const filteredList = pokemonList.filter((pokemon) => 
+        const filteredList = filteredPokemonList.filter((pokemon) => 
             pokemon.name.toLowerCase().includes(search.toLowerCase()));
         
         setFilteredPokemonList(filteredList);
     }, [search, pokemonList ]);
+
+    // update limit, type, and search when params change
+    useEffect(() => {
+        setLimit(params.limit || 20);
+        setType(params.type || 'all');
+        setSearch(params.search || '');
+    }, [ params ]);
 
     return (
         <>
