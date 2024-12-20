@@ -149,7 +149,7 @@ export default function PokemonPage({ searchParams }) {
                 <FilterBar filter={type} setFilter={(event) => {
                     const currentParams = new URLSearchParams(window.location.search);
                     currentParams.set('type', event.target.value);
-                    setType(event.target.value); // Aktualizacja zmiennej "type" za pomocą setType
+                    setType(event.target.value);
                     router.push(`/pokemon?${currentParams.toString()}`);
                 }} />
                 <PokemonList 
