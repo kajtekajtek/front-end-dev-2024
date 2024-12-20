@@ -44,13 +44,11 @@ p {
     text-align: center;
 }
 
-.addToFavorites {
+.toggleBtn {
     background-color: var(--item-color);
 
     display: inline-block;
     padding:5px 7px;
-    margin-left: -15%;
-    margin-right:5%;
 
     border: 1px solid var(--border-color);
     border-radius: 15px;
@@ -65,7 +63,7 @@ p {
     cursor: pointer;
 }
 
-.addToFavorites:hover {
+.toggleBtn:hover {
     transform: scale(1.05);
     border-color: var(--primary-color);
 }

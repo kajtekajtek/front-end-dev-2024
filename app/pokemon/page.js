@@ -4,6 +4,7 @@ import { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import PokemonList from '../components/PokemonList';
 import FilterBar from '../components/FilterBar';
+import Compare from '../components/Compare';
 
 const API_URL = 'https://pokeapi.co/api/v2/';
 
@@ -12,6 +13,7 @@ export default function PokemonPage({ searchParams }) {
     const [ pokemonList, setPokemonList ] = useState([]);
     const [ filteredPokemonList, setFilteredPokemonList ] = useState([]);
     const [ favorites, setFavorites ] = useState([]);
+    const [ compareList, setCompareList ] = useState([]);
     // search parameters
     const [ type, setType ] = useState('all');
     const [ limit, setLimit ] = useState(20);
@@ -19,6 +21,27 @@ export default function PokemonPage({ searchParams }) {
     const [ params ] = useState(use(searchParams));
 
     const router = useRouter();
+
+    const addToCompare = (pokemon) => {
+        console.log(pokemon);
+        let updatedCompareList;
+        // remove from comparison if pokemon is already in comparison
+        if (compareList.map((c) => c.id).includes(pokemon.id)) {
+            console.log(1)
+            updatedCompareList = compareList.filter((c) => c.id !== pokemon.id);
+        }
+        // add to comparison if pokemon is not in comparison
+        else {
+            if (compareList.length < 2) {
+                updatedCompareList = [...compareList, pokemon];
+
+            } else {
+                updatedCompareList = [compareList[1], pokemon];
+
+            }
+        }
+        setCompareList(updatedCompareList);
+    };
 
     // function for adding/removing pokemon to/from favorites
     const addToFavorites = (pokemon) => {
@@ -133,6 +156,12 @@ export default function PokemonPage({ searchParams }) {
                     pokemons={filteredPokemonList} 
                     favorites={favorites}
                     addToFavorites={addToFavorites}
+                    compareList={compareList}
+                    addToCompare={addToCompare}
+                />
+                <Compare
+                    compareList={compareList}
+                    clearCompare={() => setCompareList([])}     
                 />
             </section>
         </>

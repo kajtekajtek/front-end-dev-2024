@@ -1,0 +1,49 @@
+/* Styles for the pokemon comparison */
+.compare {
+    margin-top: 20px;
+}
+
+.compare h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.compareContainer {
+    display: flex;
+    justify-content:center;
+}
+
+.compare .comparedPokemon {
+    width: 45%;
+    background: var(--item-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
+    padding: 1rem;
+    max-width: 600px;
+    
+
+    text-align: center;
+}
+
+.compare .comparedPokemon h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.compare .comparedPokemon ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.compare .comparedPokemon li {
+    margin-bottom: 5px;
+}
+
+.compare .comparedPokemon img {
+    display: block;
+    margin: 1rem auto;
+    width: 150px;
+    height: 150px;
+}

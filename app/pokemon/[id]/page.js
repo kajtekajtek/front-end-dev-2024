@@ -1,6 +1,6 @@
+// app/pokemon/[id]/page.js - pokemon details page
 'use client';
 import { use, useEffect, useState } from 'react';
-// app/pokemon/[id]/page.js - pokemon details page
 import PokemonDetails from '../../components/PokemonDetails.js';
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
