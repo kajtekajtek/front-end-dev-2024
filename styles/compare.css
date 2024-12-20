@@ -3,6 +3,10 @@
     margin-top: 20px;
 }
 
+.compare button {
+    margin-left: 2rem;
+}
+
 .compare h2 {
     font-size: 24px;
     margin-bottom: 10px;

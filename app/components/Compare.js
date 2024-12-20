@@ -41,7 +41,7 @@ export default function Compare({ compareList, clearCompare }) {
     return (
         <section className="compare">
             <h2>Compare Pokemons</h2>
-            <button onClick={clearCompare}>Clear Comparison</button>
+            <button className="toggleBtn" onClick={clearCompare}>Clear Comparison</button>
             <div className="compareContainer">
             {!pokemon1 || !pokemon2 ? (
                 <p>Loading...</p> 
