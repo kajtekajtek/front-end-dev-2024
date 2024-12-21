@@ -15,10 +15,10 @@ export default function PokemonPage({ searchParams }) {
     const [ favorites, setFavorites ] = useState([]);
     const [ compareList, setCompareList ] = useState([]);
     // search parameters
+    const [ params ] = useState(use(searchParams));
     const [ type, setType ] = useState('all');
     const [ limit, setLimit ] = useState(20);
     const [ search, setSearch ] = useState('');
-    const [ params ] = useState(use(searchParams));
 
     const router = useRouter();
 
@@ -56,6 +56,18 @@ export default function PokemonPage({ searchParams }) {
         }
         setFavorites(updatedFavorites);
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
+    const updateType = (type) => {
+        const currentParams = new URLSearchParams(window.location.search);
+
+        // set type in state and local storage
+        setType(type);
+        localStorage.setItem('type', type);
+
+        currentParams.set('type', type);
+
+        router.push(`/pokemon?${currentParams.toString()}`);
     };
 
     // fetch pokemon list on component mount
@@ -97,22 +109,6 @@ export default function PokemonPage({ searchParams }) {
     // rerun the effect when the limit param changes
     }, [limit]);
 
-    // filter pokemon list by type when type param or pokemonList changes
-    useEffect(() => {
-        if (type === 'all') {
-            setFilteredPokemonList(pokemonList);
-        } else {
-            const filteredList = pokemonList.filter((pokemon) => pokemon.type.includes(type));
-            setFilteredPokemonList(filteredList);
-        }
-    }, [ type, pokemonList ]);
-
-    // load favorites from local storage on component mount
-    useEffect(() => {
-        const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        setFavorites(savedFavorites);
-    }, []);
-
     // handle search on search or pokemonList change
     useEffect(() => {
         if (!search) {
@@ -126,12 +122,40 @@ export default function PokemonPage({ searchParams }) {
         setFilteredPokemonList(filteredList);
     }, [search, pokemonList ]);
 
+    // load states
+    useEffect(() => {
+        // load favorites from local storage
+        setFavorites(JSON.parse(localStorage.getItem('favorites')) || []);
+
+        // if type is saved in local storage, load it from there
+        if (localStorage.getItem('type')) {
+            updateType(localStorage.getItem('type'))
+        // if not, check if it's in the URL, and if not, set it to 'all'
+        } else {
+            setType(params.type || 'all');
+        }
+
+        setLimit(params.limit || 20);
+    }, []);    
+
     // update limit, type, and search when params change
     useEffect(() => {
-        setLimit(params.limit || 20);
-        setType(params.type || 'all');
         setSearch(params.search || '');
+
+        if (params.type) {
+            updateType(params.type);
+        }
     }, [ params ]);
+
+    // filter pokemon list by type when type param or pokemonList changes
+    useEffect(() => {
+        if (type === 'all') {
+            setFilteredPokemonList(pokemonList);
+        } else {
+            const filteredList = pokemonList.filter((pokemon) => pokemon.type.includes(type));
+            setFilteredPokemonList(filteredList);
+        }
+    }, [ type, pokemonList ]);
 
     return (
         <>
@@ -146,12 +170,7 @@ export default function PokemonPage({ searchParams }) {
             </section>
             <section className="items">
                 <h2>Pokemon List</h2>
-                <FilterBar filter={type} setFilter={(event) => {
-                    const currentParams = new URLSearchParams(window.location.search);
-                    currentParams.set('type', event.target.value);
-                    setType(event.target.value);
-                    router.push(`/pokemon?${currentParams.toString()}`);
-                }} />
+                <FilterBar filter={type} setFilter={(e) => updateType(e.target.value)} />
                 <PokemonList 
                     pokemons={filteredPokemonList} 
                     favorites={favorites}
