@@ -40,6 +40,7 @@ export default function FavoritesPage({ searchParams }) {
             }
         }
         setCompareList(updatedCompareList);
+        localStorage.setItem('lastComparison', JSON.stringify(updatedCompareList));
     };
 
     // function for adding/removing pokemon to/from favorites
@@ -57,20 +58,17 @@ export default function FavoritesPage({ searchParams }) {
         localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     };
 
-    // filter pokemon list by type when type param or favorites changes
-    useEffect(() => {
-        if (type === 'all') {
-            setFilteredPokemonList(favorites);
-        } else {
-            setFilteredPokemonList(favorites.filter((pokemon) => pokemon.type.includes(type)));
-        }
-    }, [type, favorites]);
+    const updateType = (type) => {
+        const currentParams = new URLSearchParams(window.location.search);
+        
+        // set type in state and local storage
+        setType(type);
+        localStorage.setItem('type', type);
 
-    // load favorites from local storage on component mount
-    useEffect(() => {
-        const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        setFavorites(savedFavorites);
-    }, []);
+        currentParams.set('type', type);
+
+        router.push(`/favorites?${currentParams.toString()}`);
+    }
 
     // handle search on search or favorites change
     useEffect(() => {
@@ -85,12 +83,41 @@ export default function FavoritesPage({ searchParams }) {
         setFilteredPokemonList(filteredList);
     }, [search, favorites ]);
 
+    // load states
+    useEffect(() => {
+        setFavorites(JSON.parse(localStorage.getItem('favorites')) || []);
+
+        // load last comparison from local storage
+        setCompareList(JSON.parse(localStorage.getItem('lastComparison')) || []);
+
+        // if type is saved in local storage, load it from there
+        if (localStorage.getItem('type')) {
+            updateType(localStorage.getItem('type'))
+        // if not, check if it's in the URL, and if not, set it to 'all'
+        } else {
+            setType(params.type || 'all');
+        }
+
+        setLimit(params.limit || 20);
+    }, []);
+
     // update limit, type, and search when params change
     useEffect(() => {
-        setLimit(params.limit || 20);
-        setType(params.type || 'all');
         setSearch(params.search || '');
+
+        if (params.type) {
+            updateType(params.type);
+        }
     }, [ params ]);
+
+    // filter pokemon list by type when type param or favorites changes
+    useEffect(() => {
+        if (type === 'all') {
+            setFilteredPokemonList(favorites);
+        } else {
+            setFilteredPokemonList(favorites.filter((pokemon) => pokemon.type.includes(type)));
+        }
+    }, [type, favorites]);
 
     return (
         <>
@@ -105,12 +132,7 @@ export default function FavoritesPage({ searchParams }) {
             </section>
             <section className="items">
                 <h2>Favorites List</h2>
-                <FilterBar filter={type} setFilter={(event) => {
-                    const currentParams = new URLSearchParams(window.location.search);
-                    currentParams.set('type', event.target.value);
-                    setType(event.target.value);
-                    router.push(`/favorites?${currentParams.toString()}`);
-                }} />
+                <FilterBar filter={type} setFilter={(e) => updateType(e.target.value)} />
                 <PokemonList 
                     pokemons={filteredPokemonList} 
                     favorites={favorites}

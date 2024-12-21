@@ -23,11 +23,9 @@ export default function PokemonPage({ searchParams }) {
     const router = useRouter();
 
     const addToCompare = (pokemon) => {
-        console.log(pokemon);
         let updatedCompareList;
         // remove from comparison if pokemon is already in comparison
         if (compareList.map((c) => c.id).includes(pokemon.id)) {
-            console.log(1)
             updatedCompareList = compareList.filter((c) => c.id !== pokemon.id);
         }
         // add to comparison if pokemon is not in comparison
@@ -41,6 +39,7 @@ export default function PokemonPage({ searchParams }) {
             }
         }
         setCompareList(updatedCompareList);
+        localStorage.setItem('lastComparison', JSON.stringify(updatedCompareList));
     };
 
     // function for adding/removing pokemon to/from favorites
@@ -126,6 +125,9 @@ export default function PokemonPage({ searchParams }) {
     useEffect(() => {
         // load favorites from local storage
         setFavorites(JSON.parse(localStorage.getItem('favorites')) || []);
+
+        // load last comparison from local storage
+        setCompareList(JSON.parse(localStorage.getItem('lastComparison')) || []);
 
         // if type is saved in local storage, load it from there
         if (localStorage.getItem('type')) {
