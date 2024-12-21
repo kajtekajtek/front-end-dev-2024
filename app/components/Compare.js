@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
 export default function Compare({ compareList, clearCompare }) {
-    if (compareList.length != 2) {
-        return null
-    }
-
     const [pokemon1, setPokemon1] = useState(null);
     const [pokemon2, setPokemon2] = useState(null);
 
@@ -35,8 +31,13 @@ export default function Compare({ compareList, clearCompare }) {
             }
         };
 
-        fetchPokemonDetails(compareList[0].id, compareList[1].id);
+        if (compareList.length === 2) 
+            fetchPokemonDetails(compareList[0].id, compareList[1].id);
     }, [compareList]);
+
+    if (compareList.length != 2) {
+        return null
+    }
 
     return (
         <section className="compare">
