@@ -1,6 +1,6 @@
 // app/components/PokemonDetails.js - pokemon details component
 import React, { useState } from 'react';
-import AddNoteForm from './AddNoteForm';
+import NoteList from './NoteList';
 
 export default function PokemonDetails({ selectedPokemon }) {
     if (!selectedPokemon) {
@@ -11,19 +11,7 @@ export default function PokemonDetails({ selectedPokemon }) {
 
     return (
        <div className="details__content">
-            <button className="add-note-btn" onClick={() => setShowForm(!showForm)}>
-                {showForm ? "Close Note Form" : "Add Training Note"}
-            </button>
-            {showForm && (
-                <div className="modal">
-                    <AddNoteForm pokemonId={selectedPokemon.id} 
-                        onSubmit={(note) => {
-                            alert(`Note added for ${selectedPokemon.name}`);
-                            setShowForm(false);
-                        }}
-                    />
-                </div>
-            )}
+            
             <h3>{selectedPokemon.name}</h3>
             <img src={selectedPokemon.sprites.front_default} alt="{selectedPokemon.name}"/>
             <p><strong>Type:</strong> {selectedPokemon.types.map(type => type.type.name).join(', ')}</p>
@@ -37,6 +25,7 @@ export default function PokemonDetails({ selectedPokemon }) {
                     </li>
                 ))}
             </ul>
+            <NoteList pokemonId={selectedPokemon.id} />
         </div>
     );
 }

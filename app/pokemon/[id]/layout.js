@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import '../../../styles/pokemonDetails.css'
 import '../../../styles/addNoteForm.css'
+import '../../../styles/editNoteForm.css'
+import '../../../styles/noteList.css'
 
 
 export default function pokemonDetailsLayout({ children }) {
