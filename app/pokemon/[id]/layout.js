@@ -1,6 +1,8 @@
 // app/pokemon/[id]/layout.js - pokemon details layout
 import Link from 'next/link';
 import '../../../styles/pokemonDetails.css'
+import '../../../styles/addNoteForm.css'
+
 
 export default function pokemonDetailsLayout({ children }) {
     return (
