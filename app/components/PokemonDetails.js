@@ -1,11 +1,17 @@
 // app/components/PokemonDetails.js - pokemon details component
+import React, { useState } from 'react';
+import NoteList from './NoteList';
+
 export default function PokemonDetails({ selectedPokemon }) {
     if (!selectedPokemon) {
         return <p>Select a Pokemon to see its details</p>
     }
 
+    const [showForm, setShowForm] = useState(false);
+
     return (
        <div className="details__content">
+            
             <h3>{selectedPokemon.name}</h3>
             <img src={selectedPokemon.sprites.front_default} alt="{selectedPokemon.name}"/>
             <p><strong>Type:</strong> {selectedPokemon.types.map(type => type.type.name).join(', ')}</p>
@@ -19,6 +25,7 @@ export default function PokemonDetails({ selectedPokemon }) {
                     </li>
                 ))}
             </ul>
+            <NoteList pokemonId={selectedPokemon.id} />
         </div>
     );
 }

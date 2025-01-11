@@ -1,0 +1,66 @@
+/* Edit Note Form */
+.edit-note-form {
+    background: var(--item-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.edit-note-form h3 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.edit-note-form label {
+    font-weight: bold;
+    margin: 0.5rem 0;
+    display: block;
+}
+
+.edit-note-form input,
+.edit-note-form textarea,
+.edit-note-form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 16px;
+    background: var(--background-color);
+}
+
+.edit-note-form input:focus,
+.edit-note-form textarea:focus,
+.edit-note-form select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.edit-note-form button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.edit-note-form button:hover {
+    transform: scale(1.05);
+    background-color: #0056b3;
+}
+
+.edit-note-form .cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.edit-note-form .cancel-button:hover {
+    background-color: #c82333;
+}
