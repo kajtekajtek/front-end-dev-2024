@@ -23,6 +23,14 @@ export default function NoteList({ pokemonId }) {
         refreshNotes();
     };
 
+    // handle note addition
+    const addNote = (note) => {
+        const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
+        localStorage.setItem("notes", JSON.stringify([...storedNotes, note]));
+        refreshNotes();
+        setAddingNote(false);
+    };
+
     // handle note editing
     const updateNote = (updatedNote) => {
         // update the note with the given id
@@ -56,12 +64,9 @@ export default function NoteList({ pokemonId }) {
             </button>
             {addingNote && (
                 <div className="modal">
-                    <AddNoteForm pokemonId={pokemonId} 
-                        onSubmit={(note) => {
-                            const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-                            localStorage.setItem("notes", JSON.stringify([...storedNotes, note]));
-                            refreshNotes();
-                        }}
+                    <AddNoteForm 
+                        pokemonId={pokemonId} 
+                        onSubmit={(note) => addNote(note)}
                     />
                 </div>
             )}
